@@ -17,7 +17,6 @@
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
         zmk,physical-layout = &foostan_chocofi_5col_layout;
-        zmk,matrix_transform = &five_column_transform;
     };
 
     five_column_transform: keymap_transform_0 {
