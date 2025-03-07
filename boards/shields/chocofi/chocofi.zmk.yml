@@ -2,14 +2,8 @@ file_format: "1"
 id: chocofi
 name: Chocofi
 type: shield
-url: https://github.com/foostan/crkbd/
+url: https://github.com/s-gregorini003/zmk-keyboard-chocofi
 requires: [pro_micro]
 exposes: [i2c_oled]
 features:
   - keys
-  - display
-  - underglow
-  - studio
-siblings:
-  - chocofi_left
-  - chocofi_right
