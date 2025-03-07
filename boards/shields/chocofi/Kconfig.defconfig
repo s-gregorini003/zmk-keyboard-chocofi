@@ -1,4 +1,4 @@
-if SHIELD_CORNE_LEFT
+if SHIELD_CHOCOFI_LEFT
 
 config ZMK_KEYBOARD_NAME
     default "Chocofi"
