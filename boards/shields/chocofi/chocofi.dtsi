@@ -22,6 +22,7 @@
         zephyr,display = &oled;
         zmk,kscan = &kscan0;
         zmk,physical-layout = &foostan_corne_5col_layout;
+        zmk,matrix_transform = &five_column_transform;
     };
 
     default_transform: keymap_transform_0 {
