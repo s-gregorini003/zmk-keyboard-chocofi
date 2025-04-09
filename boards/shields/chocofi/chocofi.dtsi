@@ -6,7 +6,7 @@
 
 #include <dt-bindings/zmk/matrix_transform.h>
 
-#include <./5column.dtsi>
+#include </__w/zmk-config/zmk-config/zmk-keyboard-chocofi/boards/shields/chocofi/chocofi.dtsi>
 
 &foostan_chocofi_5col_layout {
     transform = <&five_column_transform>;
