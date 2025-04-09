@@ -6,7 +6,7 @@
 
 #include <dt-bindings/zmk/matrix_transform.h>
 
-//#include <5column.dtsi>
+#include <./5column.dtsi>
 
 &foostan_chocofi_5col_layout {
     transform = <&five_column_transform>;
