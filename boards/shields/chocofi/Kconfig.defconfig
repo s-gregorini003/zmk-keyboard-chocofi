@@ -6,7 +6,7 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-endif
+endif # SHIELD_CHOCOFI_LEFT
 
 if SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
 
@@ -40,4 +40,4 @@ endchoice
 
 endif # LVGL
 
-endif
+endif # SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
