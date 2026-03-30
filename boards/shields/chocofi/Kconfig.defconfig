@@ -1,9 +1,14 @@
+# Copyright (c) 2025 Silvio Gregorini
+# SPDX-License-Identifier: MIT
+
 if SHIELD_CHOCOFI_LEFT
 
 config ZMK_KEYBOARD_NAME
+    string
     default "Chocofi"
 
 config ZMK_SPLIT_ROLE_CENTRAL
+    bool
     default y
 
 endif # SHIELD_CHOCOFI_LEFT
@@ -11,11 +16,12 @@ endif # SHIELD_CHOCOFI_LEFT
 if SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
 
 config ZMK_SPLIT
+    bool
     default y
 
 endif # SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
 
-# Enable I2C for any build that includes a display add-on
+# I2C required by any display add-on
 if SHIELD_CHOCOFI_SSD1306 || SHIELD_CHOCOFI_SH1107
 
 config I2C
@@ -24,9 +30,15 @@ config I2C
 
 endif # SHIELD_CHOCOFI_SSD1306 || SHIELD_CHOCOFI_SH1107
 
+# SSD1306 driver — only when that shield is selected
 if SHIELD_CHOCOFI_SSD1306
 
+config SSD1306
+    bool
+    default y
+
 if LVGL
+
 config LV_Z_VDB_SIZE
     default 64
 
@@ -39,15 +51,22 @@ config LV_Z_BITS_PER_PIXEL
 choice LV_COLOR_DEPTH
     default LV_COLOR_DEPTH_1
 endchoice
+
 endif # LVGL
 
 endif # SHIELD_CHOCOFI_SSD1306
 
+# SH1107 driver — only when that shield is selected
 if SHIELD_CHOCOFI_SH1107
 
+config SH1107
+    bool
+    default y
+
 if LVGL
+
 config LV_Z_VDB_SIZE
-    default 32 
+    default 32
 
 config LV_DPI_DEF
     default 128
@@ -58,27 +77,7 @@ config LV_Z_BITS_PER_PIXEL
 choice LV_COLOR_DEPTH
     default LV_COLOR_DEPTH_1
 endchoice
+
 endif # LVGL
 
 endif # SHIELD_CHOCOFI_SH1107
-
-if SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
-
-if LVGL
-
-config LV_Z_VDB_SIZE
-    default 64
-
-config LV_DPI_DEF
-    default 148
-
-config LV_Z_BITS_PER_PIXEL
-    default 1
-
-choice LV_COLOR_DEPTH
-    default LV_COLOR_DEPTH_1
-endchoice
-
-endif # LVGL
-
-endif # SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
