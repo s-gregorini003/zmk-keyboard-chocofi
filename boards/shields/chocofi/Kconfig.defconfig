@@ -21,6 +21,9 @@ config I2C
 config SSD1306
     default y
 
+config SH1107
+    default y
+
 endif # ZMK_DISPLAY
 
 if LVGL
