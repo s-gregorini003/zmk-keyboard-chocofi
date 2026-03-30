@@ -4,8 +4,8 @@
     oled: sh1107@3c {
         compatible = "solomon,sh1107";
         reg = <0x3c>;
-        width = <64>;
-        height = <128>;
+        segment-count = <64>;
+        page-count = <16>;
         segment-offset = <0>;
         page-offset = <0>;
         display-offset = <0x60>;
