@@ -5,7 +5,7 @@
         reg = <0x3c>;
         width = <64>;
         height = <128>;
-        segment-offset = <0>;
+        segment-offset = <32>;
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <127>;
