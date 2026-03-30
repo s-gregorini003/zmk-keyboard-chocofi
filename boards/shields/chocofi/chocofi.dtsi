@@ -5,6 +5,7 @@
  */
 
 #include "layout.dtsi"
+#include "position_map.dtsi"
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
