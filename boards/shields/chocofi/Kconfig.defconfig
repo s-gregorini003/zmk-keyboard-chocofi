@@ -13,18 +13,36 @@ if SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
 config ZMK_SPLIT
     default y
 
-if ZMK_DISPLAY
+endif # SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
+
+# Enable I2C for any build that includes a display add-on
+if SHIELD_CHOCOFI_SSD1306 || SHIELD_CHOCOFI_SH1107
 
 config I2C
+    bool
     default y
+
+endif # SHIELD_CHOCOFI_SSD1306 || SHIELD_CHOCOFI_SH1107
+
+# Enable SSD1306 driver only when that display shield is selected
+if SHIELD_CHOCOFI_SSD1306
 
 config SSD1306
+    bool
     default y
+
+endif # SHIELD_CHOCOFI_SSD1306
+
+# Enable SH1107 driver only when that display shield is selected
+if SHIELD_CHOCOFI_SH1107
 
 config SH1107
+    bool
     default y
 
-endif # ZMK_DISPLAY
+endif # SHIELD_CHOCOFI_SH1107
+
+if SHIELD_CHOCOFI_LEFT || SHIELD_CHOCOFI_RIGHT
 
 if LVGL
 
