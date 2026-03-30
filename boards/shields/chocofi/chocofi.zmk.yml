@@ -13,3 +13,5 @@ features:
 siblings:
   - chocofi_left
   - chocofi_right
+  - chocofi_ssd1306
+  - chocofi_sh1107
