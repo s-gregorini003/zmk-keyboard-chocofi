@@ -22,4 +22,4 @@
     chosen {
         zephyr,display = &oled;
     };
-}
+};
