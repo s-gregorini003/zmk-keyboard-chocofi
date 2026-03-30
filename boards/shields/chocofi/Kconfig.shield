@@ -6,3 +6,9 @@ config SHIELD_CHOCOFI_LEFT
 
 config SHIELD_CHOCOFI_RIGHT
     def_bool $(shields_list_contains,chocofi_right)
+
+config SHIELD_CHOCOFI_SSD1306
+    def_bool $(shields_list_contains,chocofi_ssd1306)
+
+config SHIELD_CHOCOFI_SH1107
+    def_bool $(shields_list_contains,chocofi_sh1107)
