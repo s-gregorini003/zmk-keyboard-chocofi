@@ -8,10 +8,9 @@
         segment-offset = <32>;
         page-offset = <0>;
         display-offset = <0>;
-        multiplex-ratio = <63>;
+        multiplex-ratio = <127>;
         segment-remap;
         com-invdir;
-        inversion-on;
         prechargep = <0x22>;
         };
 };
