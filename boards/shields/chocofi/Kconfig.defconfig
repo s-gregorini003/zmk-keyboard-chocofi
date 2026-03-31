@@ -77,10 +77,6 @@ config LV_Z_VDB_SIZE
 config LV_Z_BITS_PER_PIXEL
     default 1
 
-config LV_Z_FLUSH_COMPLETE_CALLBACK
-    bool
-    default y
-
 choice LV_COLOR_DEPTH
     default LV_COLOR_DEPTH_1
 endchoice
