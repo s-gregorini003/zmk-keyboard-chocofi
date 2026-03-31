@@ -6,8 +6,8 @@
         width = <64>;
         height = <128>;
         segment-offset = <0>;
-        page-offset = <2>;
-        display-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0x20>;
         multiplex-ratio = <63>;
         segment-remap;
         com-invdir;
@@ -16,7 +16,7 @@
 };
 
 / {
-    chosen {
-        zephyr,display = &oled;
-    };
+	chosen {
+		zephyr,display = &oled;
+	};
 };
