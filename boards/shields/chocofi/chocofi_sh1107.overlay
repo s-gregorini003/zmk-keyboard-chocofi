@@ -5,10 +5,10 @@
         reg = <0x3c>;
         width = <64>;
         height = <128>;
-        segment-offset = <4>;
+        segment-offset = <2>;
         page-offset = <0>;
         display-offset = <0>;
-        multiplex-ratio = <127>;
+        multiplex-ratio = <63>;
         segment-remap;
         com-invdir;
         prechargep = <0x22>;
