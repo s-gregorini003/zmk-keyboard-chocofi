@@ -1,4 +1,5 @@
 name: zmk-keyboard-chocofi
 build:
+  cmake: .
   settings:
     board_root: .

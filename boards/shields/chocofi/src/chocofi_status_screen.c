@@ -1,0 +1,247 @@
+/*
+ * Copyright (c) 2025 Silvio Gregorini
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <zephyr/kernel.h>
+#include <lvgl.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <zmk/display.h>
+#include <zmk/display/status_screen.h>
+#include <zmk/events/layer_state_changed.h>
+#include <zmk/event_manager.h>
+#include <zmk/keymap.h>
+
+#if IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
+LV_FONT_DECLARE(lv_font_unscii_8);
+#endif
+
+static lv_obj_t *hud_label = NULL;
+static char hud_buf[256];
+
+struct layer_hud_state {
+    zmk_keymap_layer_index_t index;
+};
+
+static void set_hud_text(lv_obj_t *label, struct layer_hud_state state) {
+    switch (state.index) {
+    case 0: // BASE
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "CHOCOFI \n"
+                 "--------\n"
+                 "THUMBS: \n"
+                 "L1: MED \n"
+                 "L2: NAV \n"
+                 "L3: MSE \n"
+                 "R1: SYM \n"
+                 "R2: NUM \n"
+                 "R3: FUN \n"
+                 "--------\n"
+                 "COMBOS: \n"
+                 "Q+W: ESC\n"
+                 "L+': ;  \n"
+                 "X+C: CPY\n"
+                 "C+V: PST\n"
+                 "F+J:CAPS");
+        break;
+
+    case 1: // NAV
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[ NAV ] \n"
+                 "--------\n"
+                 "R-HAND: \n"
+                 "  ^  PgU\n"
+                 "< v >PgD\n"
+                 "Hom  End\n"
+                 "Ins Caps\n"
+                 "--------\n"
+                 "EDIT:   \n"
+                 "^Z    ^Y\n"
+                 "^X ^C ^V\n"
+                 "--------\n"
+                 "THUMBS: \n"
+                 "RET  BSP\n"
+                 "DEL     \n"
+                 "MOD: LFT");
+        break;
+
+    case 2: // MOUSE
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[MOUSE] \n"
+                 "--------\n"
+                 "MOVE:   \n"
+                 "   ^    \n"
+                 " < v >  \n"
+                 "--------\n"
+                 "SCROLL: \n"
+                 "  sUp   \n"
+                 "sL   sR \n"
+                 "  sDn   \n"
+                 "--------\n"
+                 "CLICKS: \n"
+                 "L:Thmb 2\n"
+                 "R:Thmb 1\n"
+                 "M:Thmb 3\n"
+                 "--------\n"
+                 "MOD: LFT");
+        break;
+
+    case 3: // MEDIA
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[MEDIA] \n"
+                 "--------\n"
+                 "AUDIO:  \n"
+                 " V-   V+\n"
+                 "PRV  NXT\n"
+                 "PLY  STP\n"
+                 "MUTE    \n"
+                 "--------\n"
+                 "BT PROF:\n"
+                 " 0 1 2 3\n"
+                 "CLR: B4 \n"
+                 "--------\n"
+                 "SYSTEM: \n"
+                 "BOOTLOAD\n"
+                 "RESET   \n"
+                 "UNLOCK  ");
+        break;
+
+    case 4: // NUM
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[ NUM ] \n"
+                 "--------\n"
+                 "L-HAND: \n"
+                 "[ 7 8 9]\n"
+                 "; 4 5 6=\n"
+                 "` 1 2 3\\\n"
+                 "--------\n"
+                 "SYMBOLS:\n"
+                 "[ ] ; = \n"
+                 "` \\     \n"
+                 "--------\n"
+                 "THUMBS: \n"
+                 " .  0  -\n"
+                 "--------\n"
+                 "MOD: RGT");
+        break;
+
+    case 5: // SYM
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[ SYM ] \n"
+                 "--------\n"
+                 "L-HAND: \n"
+                 "{ & * (}\n"
+                 ": $ % ^+\n"
+                 "~ ! @ #|\n"
+                 "--------\n"
+                 "PAIRS:  \n"
+                 "{ } ( ) \n"
+                 "[ ] < > \n"
+                 "--------\n"
+                 "THUMBS: \n"
+                 " (  )  _\n"
+                 "--------\n"
+                 "MOD: RGT");
+        break;
+
+    case 6: // FUN
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[ FUN ] \n"
+                 "--------\n"
+                 "L-HAND: \n"
+                 "F7 F8 F9\n"
+                 "F4 F5 F6\n"
+                 "F1 F2 F3\n"
+                 "--------\n"
+                 "HIGH-F: \n"
+                 "F10  F11\n"
+                 "F12     \n"
+                 "--------\n"
+                 "CONTROL:\n"
+                 "PRTSC   \n"
+                 "SCRLK   \n"
+                 "PAUSE   \n"
+                 "MOD: RGT");
+        break;
+
+    default: {
+        zmk_keymap_layer_id_t layer_id = zmk_keymap_layer_index_to_id(state.index);
+        const char *name = zmk_keymap_layer_name(layer_id);
+        char name_safe[9] = "LAYER   ";
+        if (name && strlen(name) > 0) {
+            snprintf(name_safe, sizeof(name_safe), "%-8.8s", name);
+        }
+
+        snprintf(hud_buf, sizeof(hud_buf),
+                 "[L: %02u] \n"
+                 "--------\n"
+                 "NAME:   \n"
+                 "%s\n"
+                 "--------\n"
+                 "        \n"
+                 "        \n"
+                 "        \n"
+                 "        \n"
+                 "        \n"
+                 "        \n"
+                 "--------\n"
+                 "ACTIVE  \n"
+                 "CUSTOM  \n"
+                 "KEYMAP  \n"
+                 "--------",
+                 state.index, name_safe);
+        break;
+    }
+    }
+
+    lv_label_set_text_static(label, hud_buf);
+}
+
+static void layer_hud_update_cb(struct layer_hud_state state) {
+    if (hud_label) {
+        set_hud_text(hud_label, state);
+    }
+}
+
+static struct layer_hud_state layer_hud_get_state(const zmk_event_t *eh) {
+    return (struct layer_hud_state){
+        .index = zmk_keymap_highest_layer_active(),
+    };
+}
+
+ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_hud, struct layer_hud_state,
+                            layer_hud_update_cb, layer_hud_get_state)
+
+ZMK_SUBSCRIPTION(widget_layer_hud, zmk_layer_state_changed);
+
+lv_obj_t *zmk_display_status_screen(void) {
+    lv_obj_t *screen = lv_obj_create(NULL);
+    lv_obj_clear_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_pad_all(screen, 0, 0);
+    lv_obj_set_style_border_width(screen, 0, 0);
+    lv_obj_set_size(screen, 64, 128);
+    lv_obj_set_pos(screen, 0, 0);
+    lv_obj_set_style_bg_color(screen, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(screen, LV_OPA_COVER, 0);
+
+    hud_label = lv_label_create(screen);
+    lv_obj_clear_flag(hud_label, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_style_pad_all(hud_label, 0, 0);
+    lv_obj_set_style_border_width(hud_label, 0, 0);
+    lv_obj_set_size(hud_label, 64, 128);
+    lv_obj_set_pos(hud_label, 0, 0);
+    lv_label_set_long_mode(hud_label, LV_LABEL_LONG_CLIP);
+
+    lv_obj_set_style_text_color(hud_label, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(hud_label, LV_OPA_TRANSP, 0);
+
+#if IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
+    lv_obj_set_style_text_font(hud_label, &lv_font_unscii_8, 0);
+#endif
+
+    widget_layer_hud_init();
+
+    return screen;
+}
