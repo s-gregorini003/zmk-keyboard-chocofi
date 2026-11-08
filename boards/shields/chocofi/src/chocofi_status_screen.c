@@ -22,164 +22,157 @@ static lv_obj_t *hud_label = NULL;
 static char hud_buf[256];
 
 struct layer_hud_state {
-    zmk_keymap_layer_index_t index;
+    uint8_t index;
 };
 
-static void set_hud_text(lv_obj_t *label, struct layer_hud_state state) {
-    switch (state.index) {
+static void set_hud_text(lv_obj_t *label, uint8_t layer_idx) {
+    switch (layer_idx) {
     case 0: // BASE
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "CHOCOFI \n"
-                 "--------\n"
-                 "THUMBS: \n"
-                 "L1: MED \n"
-                 "L2: NAV \n"
-                 "L3: MSE \n"
-                 "R1: SYM \n"
-                 "R2: NUM \n"
-                 "R3: FUN \n"
-                 "--------\n"
-                 "COMBOS: \n"
-                 "Q+W: ESC\n"
-                 "L+': ;  \n"
-                 "X+C: CPY\n"
-                 "C+V: PST\n"
-                 "F+J:CAPS");
+        strcpy(hud_buf,
+               "CHOCOFI \n"
+               "--------\n"
+               "THUMBS: \n"
+               "L1: MED \n"
+               "L2: NAV \n"
+               "L3: MSE \n"
+               "R1: SYM \n"
+               "R2: NUM \n"
+               "R3: FUN \n"
+               "--------\n"
+               "COMBOS: \n"
+               "Q+W: ESC\n"
+               "L+': ;  \n"
+               "X+C: CPY\n"
+               "C+V: PST\n"
+               "F+J:CAPS");
         break;
 
     case 1: // NAV
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[ NAV ] \n"
-                 "--------\n"
-                 "R-HAND: \n"
-                 "  ^  PgU\n"
-                 "< v >PgD\n"
-                 "Hom  End\n"
-                 "Ins Caps\n"
-                 "--------\n"
-                 "EDIT:   \n"
-                 "^Z    ^Y\n"
-                 "^X ^C ^V\n"
-                 "--------\n"
-                 "THUMBS: \n"
-                 "RET  BSP\n"
-                 "DEL     \n"
-                 "MOD: LFT");
+        strcpy(hud_buf,
+               "[ NAV ] \n"
+               "--------\n"
+               "R-HAND: \n"
+               "  ^  PgU\n"
+               "< v >PgD\n"
+               "Hom  End\n"
+               "Ins Caps\n"
+               "--------\n"
+               "EDIT:   \n"
+               "^Z    ^Y\n"
+               "^X ^C ^V\n"
+               "--------\n"
+               "THUMBS: \n"
+               "RET  BSP\n"
+               "DEL     \n"
+               "MOD: LFT");
         break;
 
     case 2: // MOUSE
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[MOUSE] \n"
-                 "--------\n"
-                 "MOVE:   \n"
-                 "   ^    \n"
-                 " < v >  \n"
-                 "--------\n"
-                 "SCROLL: \n"
-                 "  sUp   \n"
-                 "sL   sR \n"
-                 "  sDn   \n"
-                 "--------\n"
-                 "CLICKS: \n"
-                 "L:Thmb 2\n"
-                 "R:Thmb 1\n"
-                 "M:Thmb 3\n"
-                 "--------\n"
-                 "MOD: LFT");
+        strcpy(hud_buf,
+               "[MOUSE] \n"
+               "--------\n"
+               "MOVE:   \n"
+               "   ^    \n"
+               " < v >  \n"
+               "--------\n"
+               "SCROLL: \n"
+               "  sUp   \n"
+               "sL   sR \n"
+               "  sDn   \n"
+               "--------\n"
+               "CLICKS: \n"
+               "L:Thmb 2\n"
+               "R:Thmb 1\n"
+               "M:Thmb 3\n"
+               "--------\n"
+               "MOD: LFT");
         break;
 
     case 3: // MEDIA
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[MEDIA] \n"
-                 "--------\n"
-                 "AUDIO:  \n"
-                 " V-   V+\n"
-                 "PRV  NXT\n"
-                 "PLY  STP\n"
-                 "MUTE    \n"
-                 "--------\n"
-                 "BT PROF:\n"
-                 " 0 1 2 3\n"
-                 "CLR: B4 \n"
-                 "--------\n"
-                 "SYSTEM: \n"
-                 "BOOTLOAD\n"
-                 "RESET   \n"
-                 "UNLOCK  ");
+        strcpy(hud_buf,
+               "[MEDIA] \n"
+               "--------\n"
+               "AUDIO:  \n"
+               " V-   V+\n"
+               "PRV  NXT\n"
+               "PLY  STP\n"
+               "MUTE    \n"
+               "--------\n"
+               "BT PROF:\n"
+               " 0 1 2 3\n"
+               "CLR: B4 \n"
+               "--------\n"
+               "SYSTEM: \n"
+               "BOOTLOAD\n"
+               "RESET   \n"
+               "UNLOCK  ");
         break;
 
     case 4: // NUM
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[ NUM ] \n"
-                 "--------\n"
-                 "L-HAND: \n"
-                 "[ 7 8 9]\n"
-                 "; 4 5 6=\n"
-                 "` 1 2 3\\\n"
-                 "--------\n"
-                 "SYMBOLS:\n"
-                 "[ ] ; = \n"
-                 "` \\     \n"
-                 "--------\n"
-                 "THUMBS: \n"
-                 " .  0  -\n"
-                 "--------\n"
-                 "MOD: RGT");
+        strcpy(hud_buf,
+               "[ NUM ] \n"
+               "--------\n"
+               "L-HAND: \n"
+               "[ 7 8 9]\n"
+               "; 4 5 6=\n"
+               "` 1 2 3\\\n"
+               "--------\n"
+               "SYMBOLS:\n"
+               "[ ] ; = \n"
+               "` \\     \n"
+               "--------\n"
+               "THUMBS: \n"
+               " .  0  -\n"
+               "--------\n"
+               "MOD: RGT");
         break;
 
     case 5: // SYM
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[ SYM ] \n"
-                 "--------\n"
-                 "L-HAND: \n"
-                 "{ & * (}\n"
-                 ": $ % ^+\n"
-                 "~ ! @ #|\n"
-                 "--------\n"
-                 "PAIRS:  \n"
-                 "{ } ( ) \n"
-                 "[ ] < > \n"
-                 "--------\n"
-                 "THUMBS: \n"
-                 " (  )  _\n"
-                 "--------\n"
-                 "MOD: RGT");
+        strcpy(hud_buf,
+               "[ SYM ] \n"
+               "--------\n"
+               "L-HAND: \n"
+               "{ & * (}\n"
+               ": $ % ^+\n"
+               "~ ! @ #|\n"
+               "--------\n"
+               "PAIRS:  \n"
+               "{ } ( ) \n"
+               "[ ] < > \n"
+               "--------\n"
+               "THUMBS: \n"
+               " (  )  _\n"
+               "--------\n"
+               "MOD: RGT");
         break;
 
     case 6: // FUN
-        snprintf(hud_buf, sizeof(hud_buf),
-                 "[ FUN ] \n"
-                 "--------\n"
-                 "L-HAND: \n"
-                 "F7 F8 F9\n"
-                 "F4 F5 F6\n"
-                 "F1 F2 F3\n"
-                 "--------\n"
-                 "HIGH-F: \n"
-                 "F10  F11\n"
-                 "F12     \n"
-                 "--------\n"
-                 "CONTROL:\n"
-                 "PRTSC   \n"
-                 "SCRLK   \n"
-                 "PAUSE   \n"
-                 "MOD: RGT");
+        strcpy(hud_buf,
+               "[ FUN ] \n"
+               "--------\n"
+               "L-HAND: \n"
+               "F7 F8 F9\n"
+               "F4 F5 F6\n"
+               "F1 F2 F3\n"
+               "--------\n"
+               "HIGH-F: \n"
+               "F10  F11\n"
+               "F12     \n"
+               "--------\n"
+               "CONTROL:\n"
+               "PRTSC   \n"
+               "SCRLK   \n"
+               "PAUSE   \n"
+               "MOD: RGT");
         break;
 
-    default: {
-        zmk_keymap_layer_id_t layer_id = zmk_keymap_layer_index_to_id(state.index);
-        const char *name = zmk_keymap_layer_name(layer_id);
-        char name_safe[9] = "LAYER   ";
-        if (name && strlen(name) > 0) {
-            snprintf(name_safe, sizeof(name_safe), "%-8.8s", name);
-        }
-
+    default:
         snprintf(hud_buf, sizeof(hud_buf),
                  "[L: %02u] \n"
                  "--------\n"
-                 "NAME:   \n"
-                 "%s\n"
-                 "--------\n"
+                 "        \n"
+                 "        \n"
+                 "        \n"
                  "        \n"
                  "        \n"
                  "        \n"
@@ -191,9 +184,8 @@ static void set_hud_text(lv_obj_t *label, struct layer_hud_state state) {
                  "CUSTOM  \n"
                  "KEYMAP  \n"
                  "--------",
-                 state.index, name_safe);
+                 layer_idx);
         break;
-    }
     }
 
     lv_label_set_text_static(label, hud_buf);
@@ -201,7 +193,7 @@ static void set_hud_text(lv_obj_t *label, struct layer_hud_state state) {
 
 static void layer_hud_update_cb(struct layer_hud_state state) {
     if (hud_label) {
-        set_hud_text(hud_label, state);
+        set_hud_text(hud_label, state.index);
     }
 }
 
