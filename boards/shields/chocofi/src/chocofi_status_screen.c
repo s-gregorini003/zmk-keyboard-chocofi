@@ -14,12 +14,14 @@
 #include <zmk/event_manager.h>
 #include <zmk/keymap.h>
 
-#if IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
+#if IS_ENABLED(CONFIG_LV_FONT_MONTSERRAT_8)
+LV_FONT_DECLARE(lv_font_montserrat_8);
+#elif IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
 LV_FONT_DECLARE(lv_font_unscii_8);
 #endif
 
 static lv_obj_t *hud_label = NULL;
-static char hud_buf[256];
+static char hud_buf[512];
 
 struct layer_hud_state {
     uint8_t index;
@@ -29,161 +31,139 @@ static void set_hud_text(lv_obj_t *label, uint8_t layer_idx) {
     switch (layer_idx) {
     case 0: // BASE
         strcpy(hud_buf,
-               "CHOCOFI \n"
-               "--------\n"
-               "THUMBS: \n"
-               "L1: MED \n"
-               "L2: NAV \n"
-               "L3: MSE \n"
-               "R1: SYM \n"
-               "R2: NUM \n"
-               "R3: FUN \n"
-               "--------\n"
-               "COMBOS: \n"
-               "Q+W: ESC\n"
-               "L+': ;  \n"
-               "X+C: CPY\n"
-               "C+V: PST\n"
-               "F+J:CAPS");
+               ".----------.\n"
+               "| CHOCOFI  |\n"
+               "'----------'\n"
+               " [BASE L0]  \n"
+               "            \n"
+               "  L-THUMBS  \n"
+               "ESC: MEDIA  \n"
+               "SPC: NAV    \n"
+               "TAB: MOUSE  \n"
+               "            \n"
+               "  R-THUMBS  \n"
+               "RET: SYM    \n"
+               "BSP: NUM    \n"
+               "DEL: FUN    \n"
+               "------------\n"
+               "Q+W:ESC  F+J:CAP");
         break;
 
     case 1: // NAV
         strcpy(hud_buf,
-               "[ NAV ] \n"
-               "--------\n"
-               "R-HAND: \n"
-               "  ^  PgU\n"
-               "< v >PgD\n"
-               "Hom  End\n"
-               "Ins Caps\n"
-               "--------\n"
-               "EDIT:   \n"
-               "^Z    ^Y\n"
-               "^X ^C ^V\n"
-               "--------\n"
-               "THUMBS: \n"
-               "RET  BSP\n"
-               "DEL     \n"
-               "MOD: LFT");
+               ".----------.\n"
+               "|   NAV    |\n"
+               "'----------'\n"
+               "  R-HAND    \n"
+               "------------\n"
+               " ·  H  ^  E  U\n"
+               " C  <  v  >  D\n"
+               " Y  V  C  X  Z\n"
+               "------------\n"
+               "THUMBS:     \n"
+               "[RET][BSP][DEL]\n"
+               "------------\n"
+               "HOLD: [SPC] ");
         break;
 
     case 2: // MOUSE
         strcpy(hud_buf,
-               "[MOUSE] \n"
-               "--------\n"
-               "MOVE:   \n"
-               "   ^    \n"
-               " < v >  \n"
-               "--------\n"
-               "SCROLL: \n"
-               "  sUp   \n"
-               "sL   sR \n"
-               "  sDn   \n"
-               "--------\n"
-               "CLICKS: \n"
-               "L:Thmb 2\n"
-               "R:Thmb 1\n"
-               "M:Thmb 3\n"
-               "--------\n"
-               "MOD: LFT");
+               ".----------.\n"
+               "|  MOUSE   |\n"
+               "'----------'\n"
+               "  R-HAND    \n"
+               "------------\n"
+               " ·  sU  ^  sD ·\n"
+               " ·  <   v   > ·\n"
+               " ·  sL  ·  sR ·\n"
+               "------------\n"
+               "CLICKS:     \n"
+               "[RC]  [LC]  [MC]\n"
+               "------------\n"
+               "HOLD: [TAB] ");
         break;
 
     case 3: // MEDIA
         strcpy(hud_buf,
-               "[MEDIA] \n"
-               "--------\n"
-               "AUDIO:  \n"
-               " V-   V+\n"
-               "PRV  NXT\n"
-               "PLY  STP\n"
-               "MUTE    \n"
-               "--------\n"
-               "BT PROF:\n"
-               " 0 1 2 3\n"
-               "CLR: B4 \n"
-               "--------\n"
-               "SYSTEM: \n"
-               "BOOTLOAD\n"
-               "RESET   \n"
-               "UNLOCK  ");
+               ".----------.\n"
+               "|  MEDIA   |\n"
+               "'----------'\n"
+               "  R-HAND    \n"
+               "------------\n"
+               " ·   ·   ·   ·  ·\n"
+               " ·  <<  V-  V+ >>\n"
+               " B0 B1  B2  B3 CLR\n"
+               "------------\n"
+               "THUMBS:     \n"
+               "[STP][PLY][MUT]\n"
+               "------------\n"
+               "HOLD: [ESC] ");
         break;
 
     case 4: // NUM
         strcpy(hud_buf,
-               "[ NUM ] \n"
-               "--------\n"
-               "L-HAND: \n"
-               "[ 7 8 9]\n"
-               "; 4 5 6=\n"
-               "` 1 2 3\\\n"
-               "--------\n"
-               "SYMBOLS:\n"
-               "[ ] ; = \n"
-               "` \\     \n"
-               "--------\n"
-               "THUMBS: \n"
-               " .  0  -\n"
-               "--------\n"
-               "MOD: RGT");
+               ".----------.\n"
+               "|   NUM    |\n"
+               "'----------'\n"
+               "  L-HAND    \n"
+               "------------\n"
+               " [  7  8  9  ]\n"
+               " ;  4  5  6  =\n"
+               " `  1  2  3  \\\n"
+               "------------\n"
+               "THUMBS:     \n"
+               "[ . ][ 0 ][ - ]\n"
+               "------------\n"
+               "HOLD: [BSPC]");
         break;
 
     case 5: // SYM
         strcpy(hud_buf,
-               "[ SYM ] \n"
-               "--------\n"
-               "L-HAND: \n"
-               "{ & * (}\n"
-               ": $ % ^+\n"
-               "~ ! @ #|\n"
-               "--------\n"
-               "PAIRS:  \n"
-               "{ } ( ) \n"
-               "[ ] < > \n"
-               "--------\n"
-               "THUMBS: \n"
-               " (  )  _\n"
-               "--------\n"
-               "MOD: RGT");
+               ".----------.\n"
+               "|   SYM    |\n"
+               "'----------'\n"
+               "  L-HAND    \n"
+               "------------\n"
+               " {  &  *  (  }\n"
+               " :  $  %  ^  +\n"
+               " ~  !  @  #  |\n"
+               "------------\n"
+               "THUMBS:     \n"
+               "[ ( ][ ) ][ _ ]\n"
+               "------------\n"
+               "HOLD: [RET] ");
         break;
 
     case 6: // FUN
         strcpy(hud_buf,
-               "[ FUN ] \n"
-               "--------\n"
-               "L-HAND: \n"
-               "F7 F8 F9\n"
-               "F4 F5 F6\n"
-               "F1 F2 F3\n"
-               "--------\n"
-               "HIGH-F: \n"
-               "F10  F11\n"
-               "F12     \n"
-               "--------\n"
-               "CONTROL:\n"
-               "PRTSC   \n"
-               "SCRLK   \n"
-               "PAUSE   \n"
-               "MOD: RGT");
+               ".----------.\n"
+               "|   FUN    |\n"
+               "'----------'\n"
+               "  L-HAND    \n"
+               "------------\n"
+               " F12 F7 F8 F9 PSC\n"
+               " F11 F4 F5 F6 SLK\n"
+               " F10 F1 F2 F3 BRK\n"
+               "------------\n"
+               "THUMBS:     \n"
+               "[APP][SPC][TAB]\n"
+               "------------\n"
+               "HOLD: [DEL] ");
         break;
 
     default:
         snprintf(hud_buf, sizeof(hud_buf),
-                 "[L: %02u] \n"
-                 "--------\n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "        \n"
-                 "--------\n"
-                 "ACTIVE  \n"
-                 "CUSTOM  \n"
-                 "KEYMAP  \n"
-                 "--------",
+                 ".----------.\n"
+                 "| LAYER %02u |\n"
+                 "'----------'\n"
+                 "            \n"
+                 "  DYNAMIC   \n"
+                 "   LAYER    \n"
+                 "            \n"
+                 " CONFIGURED \n"
+                 "    VIA     \n"
+                 " ZMK STUDIO \n"
+                 "------------",
                  layer_idx);
         break;
     }
@@ -229,7 +209,9 @@ lv_obj_t *zmk_display_status_screen(void) {
     lv_obj_set_style_text_color(hud_label, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(hud_label, LV_OPA_TRANSP, 0);
 
-#if IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
+#if IS_ENABLED(CONFIG_LV_FONT_MONTSERRAT_8)
+    lv_obj_set_style_text_font(hud_label, &lv_font_montserrat_8, 0);
+#elif IS_ENABLED(CONFIG_LV_FONT_UNSCII_8)
     lv_obj_set_style_text_font(hud_label, &lv_font_unscii_8, 0);
 #endif
 
