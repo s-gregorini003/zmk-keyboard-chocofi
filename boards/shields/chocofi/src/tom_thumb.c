@@ -222,8 +222,8 @@ static LV_ATTRIBUTE_LARGE_CONST const uint8_t glyph_bitmap[] = {
     /* U+0063 "c" (4x1 line segment) */
     0xf0, 0x00,
 
-    /* U+0064 "d" */
-    0x2e, 0xd6,
+    /* U+0064 "d" (1x1 center dot) */
+    0x80, 0x00,
 
     /* U+0065 "e" */
     0x77, 0x30,
@@ -379,7 +379,7 @@ static const lv_font_fmt_txt_glyph_dsc_t glyph_dsc[] = {
     {.bitmap_index = 118, .adv_w = 16, .box_w = 0, .box_h = 0, .ofs_x = 0, .ofs_y = 0}, /* 0x61 a (1px space) */
     {.bitmap_index = 120, .adv_w = 32, .box_w = 0, .box_h = 0, .ofs_x = 0, .ofs_y = 0}, /* 0x62 b (2px space) */
     {.bitmap_index = 122, .adv_w = 64, .box_w = 4, .box_h = 1, .ofs_x = 0, .ofs_y = 3}, /* 0x63 c (4px hline) */
-    {.bitmap_index = 124, .adv_w = 64, .box_w = 3, .box_h = 5, .ofs_x = 0, .ofs_y = 1},
+    {.bitmap_index = 124, .adv_w = 64, .box_w = 1, .box_h = 1, .ofs_x = 1, .ofs_y = 3}, /* 0x64 d (1x1 center dot) */
     {.bitmap_index = 126, .adv_w = 64, .box_w = 3, .box_h = 4, .ofs_x = 0, .ofs_y = 1},
     {.bitmap_index = 128, .adv_w = 64, .box_w = 3, .box_h = 5, .ofs_x = 0, .ofs_y = 1},
     {.bitmap_index = 130, .adv_w = 64, .box_w = 3, .box_h = 5, .ofs_x = 0, .ofs_y = 0},
